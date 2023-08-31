@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configurações
-GAMEDIR="/root/server-minecraft"
+GAMEDIR="/root/minecraft-server"
 BACKUPDIR="/root/backupsmine"
 MAXDAYS="30"
 
