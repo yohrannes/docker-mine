@@ -1,5 +1,5 @@
 # Use a imagem oficial do CentOS 7 como base
-FROM centos:centos8.4.2105
+FROM centos
 WORKDIR /root
 
 #Preparing system for minecraft server, installing tmux for run server in detached, and nano for script edition facility
@@ -19,4 +19,4 @@ RUN java -Djava.net.preferIPv4Stack=true -Xmx1024M -Xms1024M -jar ./minecraft-se
 COPY . /root/minecraft-server
 
 # Starting  minecraft server....
-#CMD ["java", "-Djava.net.preferIPv4Stack=true", "-Xmx1024M", "-Xms1024M", "-jar", "./minecraft-server/server.jar", "nogui"]
+CMD ["tmux", "new-session", "-d", "-s", "mcserver", "java", "-Djava.net.preferIPv4Stack=true", "-Xmx1024M", "-Xms1024M", "-jar", "./minecraft-server/server.jar", "--nogui"]
