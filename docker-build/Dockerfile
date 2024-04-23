@@ -1,9 +1,19 @@
 # Use a imagem oficial do CentOS 7 como base
-FROM centos
+FROM arm64v8/centos:7
 WORKDIR /root
 
 #Preparing system for minecraft server, installing tmux for run server in detached, and nano for script edition facility
-RUN  sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*; sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*; yum update -y; yum upgrade -y; yum install nano -y; mkdir minecraft-server; mkdir backupsmine; yum install rsync -y
+RUN sed --in-place=.orig --regexp-extended 's%#baseurl=http://mirror.centos.org/centos/%baseurl=https://mirrors.edge.kernel.org/centos/%g' /etc/yum.repos.d/CentOS-*.repo && \
+    sed --in-place --regexp-extended 's%^mirrorlist=%#mirrorlist=%g' /etc/yum.repos.d/CentOS-*.repo && \
+    yum clean expire-cache
+#RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*;
+#RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*;
+RUN yum update -y;
+RUN yum upgrade -y;
+RUN yum install nano -y;
+RUN mkdir minecraft-server;
+RUN mkdir backupsmine;
+RUN yum install rsync -y
 
 WORKDIR /root/minecraft-server
 
